@@ -1,4 +1,3 @@
-#include <iostream>
 #include <QWidget>
 
 #include "mainwindow.h"
@@ -17,9 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     std::vector<AsusMouseDriver*> list = driver->getDevices();
 
-    std::cout << list.size() << std::endl;
-
-    for (int i = 0; i < list.size(); i++) {
+    for (unsigned int i = 0; i < list.size(); i++) {
         bool is_wake = list[i]->get_wake_state();
 
         QWidget* devicePage;

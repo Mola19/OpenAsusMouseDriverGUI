@@ -14,7 +14,7 @@ class LightingZone : public QWidget
     Q_OBJECT
 
 public:
-    explicit LightingZone(QWidget *parent = nullptr, AsusMouseDriver* dev = nullptr, AsusMouseDriver::LightingZones zone_type = AsusMouseDriver::LIGHTING_ZONE_ALL, AsusMouseDriver::LightingZoneInfo* current_lighting = nullptr);
+    explicit LightingZone(QWidget *parent = nullptr, AsusMouseDriver* dev = nullptr, uint8_t zone_type = AsusMouseDriver::LIGHTING_ZONE_ALL, AsusMouseDriver::LightingZoneInfo* current_lighting = nullptr);
     ~LightingZone();
 
 private slots:

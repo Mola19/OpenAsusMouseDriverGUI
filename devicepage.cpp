@@ -194,10 +194,10 @@ void DevicePage::lighting_type_changed(int value, bool init) {
 
 void DevicePage::set_battery_settings() {
     uint8_t time_to_sleep_index = ui->TimeToSleepDropdown->currentIndex();
-    AsusMouseDriver::BatteryTimeToSleepValues time_to_sleep =
+    uint8_t time_to_sleep =
             (time_to_sleep_index == 0) ?
                 AsusMouseDriver::TIME_TO_SLEEP_NEVER :
-                (AsusMouseDriver::BatteryTimeToSleepValues) (time_to_sleep_index - 1);
+                time_to_sleep_index - 1;
 
     Qt::CheckState warning_at_never_state = ui->WarningAtNeverButton->checkState();
     uint8_t warning_at = (warning_at_never_state == Qt::CheckState::Checked) ? 0 : ui->WarningAtInput->value();
