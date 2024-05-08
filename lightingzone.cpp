@@ -23,7 +23,8 @@ LightingZone::LightingZone(QWidget *parent, AsusMouseDriver* dev, uint8_t zone_t
     for (auto const& [mode_id, mode] : dev->config.lighting_modes) {
         if(zone_type != AsusMouseDriver::LIGHTING_ZONE_ALL && (
             mode == AsusMouseDriver::LIGHTING_MODE_WAVE ||
-            mode == AsusMouseDriver::LIGHTING_MODE_COMET)) continue;
+            mode == AsusMouseDriver::LIGHTING_MODE_COMET||
+            mode == AsusMouseDriver::LIGHTING_MODE_OFF)) continue;
 
         ui->ModeDropdown->addItem(AsusMouseDriver::lighting_mode_names[mode].c_str());
         ui->ModeDropdown->setItemData(ui->ModeDropdown->count() - 1, mode_id);
