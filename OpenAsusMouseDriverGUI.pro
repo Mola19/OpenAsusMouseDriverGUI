@@ -23,6 +23,7 @@ SOURCES += \
     statsthread.cpp
 
 HEADERS += \
+    cache.h \
     devicepage.h \
     lightingzone.h \
     mainwindow.h \

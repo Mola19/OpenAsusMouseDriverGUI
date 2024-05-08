@@ -10,6 +10,7 @@
 #include "OpenAsusMouseDriver.hpp"
 #include "statsthread.h"
 #include "lightingzone.h"
+#include "cache.h"
 
 namespace Ui {
 class DevicePage;
@@ -38,13 +39,6 @@ private slots:
     void set_battery_settings();
 
 private:
-    struct Cache {
-        AsusMouseDriver::DeviceInfo info;
-        AsusMouseDriver::BatteryInfo battery;
-        std::vector<AsusMouseDriver::LightingZoneInfo> lighting;
-        AsusMouseDriver::LightingZoneInfo dock_lighting;
-    };
-
     Ui::DevicePage* ui;
     AsusMouseDriver* dev;
     StatsThread* stats;

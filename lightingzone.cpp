@@ -10,7 +10,7 @@
 
 #include "OpenAsusMouseDriver.hpp"
 
-LightingZone::LightingZone(QWidget *parent, AsusMouseDriver* dev, uint8_t zone_type, AsusMouseDriver::LightingZoneInfo* current_lighting) :
+LightingZone::LightingZone(QWidget *parent, AsusMouseDriver* dev, Cache* cache, uint8_t zone_type, AsusMouseDriver::LightingZoneInfo* current_lighting) :
     QWidget(parent),
     ui(new Ui::LightingZone)
 {

@@ -5,6 +5,8 @@
 
 #include "OpenAsusMouseDriver.hpp"
 
+#include "cache.h"
+
 namespace Ui {
 class LightingZone;
 }
@@ -14,7 +16,7 @@ class LightingZone : public QWidget
     Q_OBJECT
 
 public:
-    explicit LightingZone(QWidget *parent = nullptr, AsusMouseDriver* dev = nullptr, uint8_t zone_type = AsusMouseDriver::LIGHTING_ZONE_ALL, AsusMouseDriver::LightingZoneInfo* current_lighting = nullptr);
+    explicit LightingZone(QWidget *parent = nullptr, AsusMouseDriver* dev = nullptr, Cache* cache = nullptr, uint8_t zone_type = AsusMouseDriver::LIGHTING_ZONE_ALL, AsusMouseDriver::LightingZoneInfo* current_lighting = nullptr);
     ~LightingZone();
 
 private slots:

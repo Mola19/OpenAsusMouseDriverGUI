@@ -149,7 +149,7 @@ void DevicePage::lighting_type_changed(int value, bool init) {
     }
 
     if (value == 1) {
-        LightingZone* zone = new LightingZone(ui->LightingTab, dev, AsusMouseDriver::LIGHTING_ZONE_ALL, &cache.lighting[0]);
+        LightingZone* zone = new LightingZone(ui->LightingTab, dev, &cache, AsusMouseDriver::LIGHTING_ZONE_ALL, &cache.lighting[0]);
         zone->move(0, 40);
         zone->show();
         zones.push_back(zone);
@@ -172,7 +172,7 @@ void DevicePage::lighting_type_changed(int value, bool init) {
 //            || cache.lighting[0].mode == AsusMouseDriver::LIGHTING_MODE_COMET)
 
         for (uint8_t i = 0; i < dev->config.lighting_zones.size(); i++) {
-            LightingZone* zone = new LightingZone(ui->LightingTab, dev, dev->config.lighting_zones[i], &cache.lighting[i]);
+            LightingZone* zone = new LightingZone(ui->LightingTab, dev, &cache, dev->config.lighting_zones[i], &cache.lighting[i]);
             zone->move(i * 180, 40);
             zone->show();
             zones.push_back(zone);
@@ -181,7 +181,7 @@ void DevicePage::lighting_type_changed(int value, bool init) {
 
     if (dev->config.has_dock) {
         cache.dock_lighting = dev->get_dock_lighting();
-        LightingZone* zone = new LightingZone(ui->LightingTab, dev, AsusMouseDriver::LIGHTING_ZONE_DOCK, &cache.dock_lighting);
+        LightingZone* zone = new LightingZone(ui->LightingTab, dev, &cache, AsusMouseDriver::LIGHTING_ZONE_DOCK, &cache.dock_lighting);
         zone->move(zones.size() * 180, 40);
         zone->show();
         zones.push_back(zone);
