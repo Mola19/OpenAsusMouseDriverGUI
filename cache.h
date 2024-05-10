@@ -10,6 +10,7 @@ public:
     AsusMouseDriver::DeviceInfo info;
     AsusMouseDriver::BatteryInfo battery;
     std::vector<AsusMouseDriver::LightingZoneInfo> lighting;
+    AsusMouseDriver::LightingZoneInfo lighting_all_zone;
     AsusMouseDriver::LightingZoneInfo dock_lighting;
 };
 
