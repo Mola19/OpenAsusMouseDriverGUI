@@ -12,7 +12,7 @@ win32 {
 unix {
 	INCLUDEPATH += \
 		"/usr/include/hidapi/" \
-		"/usr/include/openasusmicedriver/"
+		"/usr/include/openasusmousedriver/"
 }
 
 SOURCES += \
@@ -42,8 +42,26 @@ win32 {
 
 unix {
     LIBS +=                                                                                         \
-        -L"/usr/lib/" -l"hidapi"      \
         -L"/usr/lib/" -l"openasusmousedriver"
+
+    packagesExist(hidapi-hidraw) {
+        HIDAPI_HIDRAW_VERSION = $$system($$PKG_CONFIG --modversion hidapi-hidraw)
+        if (versionAtLeast(HIDAPI_HIDRAW_VERSION, "0.10.1")) {
+            LIBS += -lhidapi-hidraw
+        } else {
+            packagesExist(hidapi-libusb) {
+                LIBS += -lhidapi-libusb
+            } else {
+                LIBS += -lhidapi
+            }
+        }
+    } else {
+        packagesExist(hidapi-libusb) {
+            LIBS += -lhidapi-libusb
+        } else {
+            LIBS += -lhidapi
+        }
+    }
 }
 
 # Default rules for deployment.
