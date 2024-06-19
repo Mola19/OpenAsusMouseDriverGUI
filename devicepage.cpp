@@ -86,19 +86,6 @@ DevicePage::DevicePage(QWidget* parent, AsusMouseDriver* dev) :
     connect(ui->WarningAtInput, SIGNAL(valueChanged(int)),
             this, SLOT(warning_at_value_changed(int)));
 
-    if(dev->config.has_lighting) {
-        cache.lighting_all_zone._is_ok     = true;
-        cache.lighting_all_zone.mode       = cache.lighting[0].mode;
-        cache.lighting_all_zone.mode_raw   = cache.lighting[0].mode_raw;
-        cache.lighting_all_zone.brightness = cache.lighting[0].brightness;
-        cache.lighting_all_zone.red        = cache.lighting[0].red;
-        cache.lighting_all_zone.green      = cache.lighting[0].green;
-        cache.lighting_all_zone.blue       = cache.lighting[0].blue;
-        cache.lighting_all_zone.speed      = cache.lighting[0].speed;
-        cache.lighting_all_zone.direction  = cache.lighting[0].direction;
-        cache.lighting_all_zone.random     = cache.lighting[0].random;
-    }
-
     connect(ui->LightingTypeDropdown, SIGNAL(currentIndexChanged(int)),
             this, SLOT(lighting_type_changed(int)));
 }
@@ -238,6 +225,17 @@ void DevicePage::load_profile_data() {
         std::vector<AsusMouseDriver::LightingZoneInfo> lighting = dev->get_lighting_info();
         cache.lighting = lighting;
 
+        cache.lighting_all_zone._is_ok     = true;
+        cache.lighting_all_zone.mode       = cache.lighting[0].mode;
+        cache.lighting_all_zone.mode_raw   = cache.lighting[0].mode_raw;
+        cache.lighting_all_zone.brightness = cache.lighting[0].brightness;
+        cache.lighting_all_zone.red        = cache.lighting[0].red;
+        cache.lighting_all_zone.green      = cache.lighting[0].green;
+        cache.lighting_all_zone.blue       = cache.lighting[0].blue;
+        cache.lighting_all_zone.speed      = cache.lighting[0].speed;
+        cache.lighting_all_zone.direction  = cache.lighting[0].direction;
+        cache.lighting_all_zone.random     = cache.lighting[0].random;
+
         DevicePage::blockSignals(true);
         for (uint8_t i = ui->LightingTypeDropdown->count(); i > 0; i--) {
             ui->LightingTypeDropdown->removeItem(0);
@@ -273,10 +271,10 @@ void DevicePage::load_profile_data() {
             }
 
             ui->LightingTypeDropdown->setCurrentIndex((synced) ? 1 : 0);
-            lighting_type_changed((synced) ? 1 : 0);
+            lighting_type_changed((synced) ? 1 : 0, true);
         } else {
             ui->LightingTypeDropdown->setCurrentIndex(0);
-            lighting_type_changed(0);
+            lighting_type_changed(0, true);
         }
         DevicePage::blockSignals(false);
     }
