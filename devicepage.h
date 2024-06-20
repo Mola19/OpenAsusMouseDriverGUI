@@ -10,6 +10,7 @@
 #include "OpenAsusMouseDriver.hpp"
 #include "statsthread.h"
 #include "lightingzone.h"
+#include "directzone.h"
 #include "cache.h"
 
 namespace Ui {
@@ -35,7 +36,7 @@ private slots:
     void time_to_sleep_changed(int index);
     void warning_at_never_changed(int state);
     void warning_at_value_changed(int value);
-    void lighting_type_changed(int value, bool init = false);
+    void lighting_type_changed(int index, bool init = false);
     void set_battery_settings();
 
 private:
@@ -44,6 +45,8 @@ private:
     StatsThread* stats;
     Cache cache;
     std::vector<LightingZone*> zones;
+    std::vector<DirectZone*> direct_zones;
+    std::vector<AsusMouseDriver::RGBColor> direct_leds;
 
     enum Tabs {
         PERFORMANCE,

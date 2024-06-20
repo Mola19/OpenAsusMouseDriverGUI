@@ -17,6 +17,7 @@ unix {
 
 SOURCES += \
     devicepage.cpp \
+    directzone.cpp \
     lightingzone.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -25,12 +26,14 @@ SOURCES += \
 HEADERS += \
     cache.h \
     devicepage.h \
+    directzone.h \
     lightingzone.h \
     mainwindow.h \
     statsthread.h
 
 FORMS += \
     devicepage.ui \
+    directzone.ui \
     lightingzone.ui \
     mainwindow.ui
 

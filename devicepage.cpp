@@ -142,10 +142,17 @@ void DevicePage::warning_at_value_changed(int /*value*/) {
     set_battery_settings();
 }
 
-void DevicePage::lighting_type_changed(int value, bool init) {
+void DevicePage::lighting_type_changed(int index, bool init) {
+    int value = ui->LightingTypeDropdown->itemData(index).toInt();
+
     for (uint8_t i = zones.size(); i > 0; i--) {
         delete zones[i - 1];
         zones.pop_back();
+    }
+
+    for (uint8_t i = direct_zones.size(); i > 0; i--) {
+        delete direct_zones[i - 1];
+        direct_zones.pop_back();
     }
 
     if (value == 1) {
@@ -157,10 +164,7 @@ void DevicePage::lighting_type_changed(int value, bool init) {
         if (!init) {
             dev->set_lighting(AsusMouseDriver::LIGHTING_ZONE_ALL, &cache.lighting_all_zone);
         }
-    } else {
-//        if (cache.lighting[0].mode == AsusMouseDriver::LIGHTING_MODE_WAVE
-//            || cache.lighting[0].mode == AsusMouseDriver::LIGHTING_MODE_COMET)
-
+    } else if (value == 0) {
         for (uint8_t i = 0; i < dev->config.lighting_zones.size(); i++) {
             LightingZone* zone = new LightingZone(ui->LightingTab, dev, dev->config.lighting_zones[i], &cache.lighting[i]);
             zone->move(i * 180, 40);
@@ -171,8 +175,17 @@ void DevicePage::lighting_type_changed(int value, bool init) {
                 dev->set_lighting(dev->config.lighting_zones[i], &cache.lighting[i]);
             }
         }
+    } else {
+        int i = 0;
+        for (auto const& [zone_type, leds] : dev->config.direct_map) {
+            DirectZone* zone = new DirectZone(ui->LightingTab, dev, zone_type, &leds, &direct_leds);
+            zone->move(10, 30 + i * 60);
+            zone->show();
+            direct_zones.push_back(zone);
+            i++;
+        }
 
-
+        dev->set_direct_lighting(&direct_leds);
     }
 
     if (dev->config.has_dock) {
@@ -242,9 +255,11 @@ void DevicePage::load_profile_data() {
         }
 
         ui->LightingTypeDropdown->addItem("Indivdual Zones");
+        ui->LightingTypeDropdown->setItemData(0, 0);
 
         if (dev->config.lighting_zones.size() > 1) {
             ui->LightingTypeDropdown->addItem("Zones Synced");
+            ui->LightingTypeDropdown->setItemData(1, 1);
             bool synced = true;
 
 
@@ -276,6 +291,13 @@ void DevicePage::load_profile_data() {
             ui->LightingTypeDropdown->setCurrentIndex(0);
             lighting_type_changed(0, true);
         }
+
+        if(dev->config.has_direct) {
+            direct_leds = *new std::vector<AsusMouseDriver::RGBColor>(dev->config.led_count);
+            ui->LightingTypeDropdown->addItem("Per LED");
+            ui->LightingTypeDropdown->setItemData(ui->LightingTypeDropdown->count() - 1, 2);
+        }
+
         DevicePage::blockSignals(false);
     }
 }
